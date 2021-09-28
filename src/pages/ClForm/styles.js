@@ -1,22 +1,13 @@
-import React from 'react';
 import styled from 'styled-components';
 
-export default function ClForm() {
-	return (
-		<Main>
-			<Container>App</Container>
-		</Main>
-	);
-}
-
-const Container = styled.div`
+export const Container = styled.div`
 	width: 75%;
 	height: 20rem;
-	box-shadow: 5px 5px 3px rgba(0, 0, 0, 0.2);
-	background-color: white;
+	box-shadow: ${p => p.theme.boxShadow};
+	background-color: ${p => p.theme.white};
 `;
 
-const Main = styled.div`
+export const Main = styled.div`
 	margin: 0;
 	padding: 0;
 	min-height: 100vh;

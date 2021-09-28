@@ -4,11 +4,11 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
 import ClForm from './pages/ClForm';
 import theme from './theme';
-import colors from './constants/colors';
+import { colors, styles } from './constants';
 
 export default function App() {
 	return (
-		<ScThemeProvide theme={colors}>
+		<ScThemeProvide theme={{ ...colors, ...styles }}>
 			<GlobalStyles />
 			<MuiThemeProvider theme={theme}>
 				<ClForm />
