@@ -1,14 +1,19 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, ThemeProvider as ScThemeProvide } from 'styled-components';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
 import ClForm from './pages/ClForm';
+import theme from './theme';
+import colors from './constants/colors';
 
 export default function App() {
 	return (
-		<Main className='App'>
+		<ScThemeProvide theme={colors}>
 			<GlobalStyles />
-			<ClForm />
-		</Main>
+			<MuiThemeProvider theme={theme}>
+				<ClForm />
+			</MuiThemeProvider>
+		</ScThemeProvide>
 	);
 }
 
@@ -26,17 +31,4 @@ const GlobalStyles = createGlobalStyle`
   ::-webkit-scrollbar-track {
     background: transparent;
   }
-`;
-
-const Main = styled.div`
-	margin: 0;
-	padding: 0;
-	min-height: 100vh;
-	background-image: linear-gradient(rgba(242, 242, 242, 0.8), rgba(242, 242, 242, 0.8)),
-		url(/images/hero.jpg);
-	background-position: center center;
-	background-size: cover;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 `;
