@@ -1,10 +1,21 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-	width: 75%;
-	height: 20rem;
+	width: 80%;
+	padding: 1em;
+	border-radius: 5px;
 	box-shadow: ${p => p.theme.boxShadow};
 	background-color: ${p => p.theme.white};
+`;
+
+export const FormContainer = styled.div`
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-column-gap: 1em;
+
+	@media (max-width: 500px) {
+		grid-template-columns: 1fr;
+	}
 `;
 
 export const Main = styled.div`
