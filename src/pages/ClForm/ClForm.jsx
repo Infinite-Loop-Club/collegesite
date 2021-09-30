@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
@@ -29,6 +29,12 @@ import { Main, Container, FormContainer } from './styles';
 import validationSchema from './validationSchema';
 
 export default function ClForm() {
+	const [selectedDate, setSelectedDate] = useState(new Date());
+
+	const handleDateChange = date => {
+		setSelectedDate(date);
+	};
+
 	const handleSubmit = event => {
 		event.preventDefault();
 		console.log('Submitted');
@@ -85,6 +91,9 @@ export default function ClForm() {
 									KeyboardButtonProps={{
 										'aria-label': 'change date'
 									}}
+									value={selectedDate}
+									onChange={handleDateChange}
+									minDate={new Date()}
 								/>
 							</MuiPickersUtilsProvider>
 							<TextField
@@ -114,6 +123,9 @@ export default function ClForm() {
 									KeyboardButtonProps={{
 										'aria-label': 'change date'
 									}}
+									value={selectedDate}
+									onChange={handleDateChange}
+									minDate={new Date()}
 								/>
 							</MuiPickersUtilsProvider>
 							<TextField id='outlined-multiline-static' label='Reason' multiline rows={4} />
