@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MuiPickersUtilsProvider, KeyboardTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -26,25 +26,69 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export default function ScheduleModal({ open, setOpen }) {
-	const classes = useStyles();
+const INIT_DATA = {
+	hour: '',
+	class: '',
+	year: '',
+	subject: '',
+	faculty: ''
+};
 
-	const handleSubmit = () => {
-		console.log('Submitted');
+export default function ScheduleModal({
+	open,
+	setOpen,
+	arrangement,
+	setArrangement,
+	activeInd,
+	setActiveInd
+}) {
+	const classes = useStyles();
+	const [selectedDate, handleDateChange] = useState(new Date());
+	const [data, setData] = useState(INIT_DATA);
+
+	const handleSubmit = value => {
+		if (activeInd === -1) {
+			setArrangement(old => [
+				...old,
+				{
+					...value,
+					timing: selectedDate.toISOString()
+				}
+			]);
+		} else {
+			setArrangement(old => {
+				old[activeInd] = {
+					...value,
+					timing: selectedDate.toISOString()
+				};
+				return [...old];
+			});
+		}
+
+		setData(INIT_DATA);
 		setOpen(false);
 	};
 
 	const formik = useFormik({
-		initialValues: {
-			hour: '',
-			class: '',
-			year: '',
-			subject: '',
-			faculty: ''
-		},
+		initialValues: data,
+		enableReinitialize: true,
 		validationSchema: scheduleValidation,
 		onSubmit: handleSubmit
 	});
+
+	useEffect(() => {
+		if (activeInd === -1) {
+			setData(INIT_DATA);
+		} else {
+			handleDateChange(new Date(arrangement[activeInd].timing));
+			setData(arrangement[activeInd]);
+		}
+	}, [activeInd]);
+
+	const handleDelete = () => {
+		setArrangement(old => old.filter((val, ind) => ind !== activeInd));
+		setOpen(false);
+	};
 
 	return (
 		<Modal {...{ open, setOpen }} title='Add Arrangement'>
@@ -58,7 +102,13 @@ export default function ScheduleModal({ open, setOpen }) {
 					{...formik.getFieldProps('hour')}
 				/>
 				<MuiPickersUtilsProvider utils={DateFnsUtils}>
-					<KeyboardTimePicker label='Timing' margin='normal' fullWidth />
+					<KeyboardTimePicker
+						label='Timing'
+						margin='normal'
+						value={selectedDate}
+						onChange={date => handleDateChange(date)}
+						fullWidth
+					/>
 				</MuiPickersUtilsProvider>
 				<TextField
 					label='Class'
@@ -102,16 +152,18 @@ export default function ScheduleModal({ open, setOpen }) {
 					{...formik.getFieldProps('faculty')}
 				/>
 				<Box display='flex' justifyContent='flex-end' mt={2}>
-					<Button
-						variant='outlined'
-						color='primary'
-						onClick={() => setOpen(false)}
-						style={{ marginRight: '10px' }}
-					>
-						Cancel
-					</Button>
+					{activeInd !== -1 && (
+						<Button
+							variant='outlined'
+							color='primary'
+							onClick={handleDelete}
+							style={{ marginRight: '10px' }}
+						>
+							Delete
+						</Button>
+					)}
 					<Button type='submit' variant='contained' color='primary'>
-						Add
+						{activeInd === -1 ? 'Add' : 'Update'}
 					</Button>
 				</Box>
 			</form>

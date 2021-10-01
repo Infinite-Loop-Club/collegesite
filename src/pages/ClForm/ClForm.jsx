@@ -28,10 +28,14 @@ import LeaveDays from './LeaveDays';
 
 export default function ClForm() {
 	const [days, setDays] = useState([]);
+	const [arrangement, setArrangement] = useState([]);
 
-	const handleSubmit = event => {
-		event.preventDefault();
-		console.log('Submitted');
+	const handleSubmit = value => {
+		console.log({
+			...value,
+			days,
+			arrangement
+		});
 	};
 
 	const formik = useFormik({
@@ -131,7 +135,7 @@ export default function ClForm() {
 								{...formik.getFieldProps('clRequired')}
 							/>
 							<LeaveDays {...{ days, setDays, formik }} />
-							<AlternateArrangement />
+							<AlternateArrangement {...{ arrangement, setArrangement }} />
 						</div>
 					</FormContainer>
 					<div
