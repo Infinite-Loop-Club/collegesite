@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import { Button, InputLabel, MenuItem, FormControl, Select } from '@material-ui/core';
 
 import PersonIcon from '@material-ui/icons/Person';
@@ -22,11 +20,7 @@ import AlternateArrangement from './AlternateArrangement';
 import LeaveDays from './LeaveDays';
 
 export default function ClForm() {
-	const [selectedDate, setSelectedDate] = useState(new Date());
-
-	const handleDateChange = date => {
-		setSelectedDate(date);
-	};
+	const [days, setDays] = useState([]);
 
 	const handleSubmit = event => {
 		event.preventDefault();
@@ -75,6 +69,7 @@ export default function ClForm() {
 							<TextField
 								Icon={<DateRangeIcon />}
 								label='No of CL available'
+								type='number'
 								helperText={formik.touched['clAvailable'] && formik.errors['clAvailable']}
 								error={formik.errors['clAvailable'] && formik.touched['clAvailable']}
 								value={formik.values.clAvailable}
@@ -111,26 +106,14 @@ export default function ClForm() {
 						<div>
 							<TextField
 								Icon={<TodayIcon />}
+								type='number'
 								label='No of days CL required'
 								helperText={formik.touched['clRequired'] && formik.errors['clRequired']}
 								error={formik.errors['clRequired'] && formik.touched['clRequired']}
 								value={formik.values.clRequired}
 								{...formik.getFieldProps('clRequired')}
 							/>
-							<MuiPickersUtilsProvider utils={DateFnsUtils}>
-								<WithIcon Icon={<TodayIcon />}>
-									<DatePicker
-										margin='normal'
-										fullWidth
-										label='Days of CL'
-										format='MM/dd/yyyy'
-										value={selectedDate}
-										onChange={handleDateChange}
-										minDate={new Date()}
-									/>
-								</WithIcon>
-							</MuiPickersUtilsProvider>
-							<LeaveDays />
+							<LeaveDays {...{ days, setDays, formik }} />
 							<AlternateArrangement />
 						</div>
 					</FormContainer>
