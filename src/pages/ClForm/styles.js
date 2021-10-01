@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
 	width: 80%;
 	padding: 1em;
+	margin: 2em;
 	border-radius: 5px;
 	box-shadow: ${p => p.theme.boxShadow};
 	background-color: ${p => p.theme.white};
@@ -29,4 +30,10 @@ export const Main = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+`;
+
+export const FlexDiv = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 `;
