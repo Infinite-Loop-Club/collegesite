@@ -28,6 +28,11 @@ export default function LeaveDays({ days, setDays, formik }) {
 	};
 
 	const handleClose = () => {
+		setDays(old => {
+			if (activeInd === -1) return [...new Set([...old, selectedDate.toDateString()])];
+			old[activeInd] = selectedDate.toDateString();
+			return [...new Set(old)];
+		});
 		setOpen(false);
 	};
 
@@ -59,7 +64,7 @@ export default function LeaveDays({ days, setDays, formik }) {
 							<TableBody>
 								{days.map((val, ind) => {
 									return (
-										<TableRow>
+										<TableRow key={ind}>
 											<TableCell component='th' scope='row'>
 												{ind + 1}
 											</TableCell>
@@ -86,18 +91,7 @@ export default function LeaveDays({ days, setDays, formik }) {
 					</TableContainer>
 				</div>
 			)}
-			<Dialog
-				onClose={() => {
-					setDays(old => {
-						if (activeInd === -1) return [...new Set([...old, selectedDate.toDateString()])];
-						old[activeInd] = selectedDate.toDateString();
-						return [...new Set(old)];
-					});
-					handleClose();
-				}}
-				aria-labelledby='simple-dialog-title'
-				open={open}
-			>
+			<Dialog onClose={handleClose} aria-labelledby='simple-dialog-title' open={open}>
 				<div style={{ padding: '1.5em' }}>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
 						<KeyboardDatePicker
@@ -110,7 +104,7 @@ export default function LeaveDays({ days, setDays, formik }) {
 						/>
 					</MuiPickersUtilsProvider>
 					<Box display='flex' justifyContent='flex-end' mt={2}>
-						<Button variant='contained' size='small' color='primary' onClick={() => setOpen(false)}>
+						<Button variant='contained' size='small' color='primary' onClick={handleClose}>
 							Add
 						</Button>
 					</Box>

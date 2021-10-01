@@ -22,7 +22,8 @@ export const clFormValidation = Yup.object({
 		.matches(/[6-9]{1}[0-9]{9}/, 'Invalid Number')
 		.min(10, 'Phone Number must have 10 digits')
 		.max(10, 'Phone Number must have 10 digits')
-		.required('Required')
+		.required('Required'),
+	reason: Yup.string()
 });
 
 export const scheduleValidation = Yup.object({
