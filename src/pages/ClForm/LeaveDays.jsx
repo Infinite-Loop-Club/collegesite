@@ -7,7 +7,8 @@ import {
 	TableBody,
 	Table,
 	IconButton,
-	Button
+	Button,
+	Box
 } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -32,7 +33,7 @@ export default function LeaveDays({ days, setDays, formik }) {
 
 	return (
 		<Fragment>
-			{formik.values.clRequired && (
+			{formik.values.clRequired && !formik.errors.clRequired && (
 				<div style={{ margin: '2rem auto' }}>
 					<FlexDiv style={{ marginBottom: '5px' }}>
 						<h3>CL Days</h3>
@@ -108,6 +109,11 @@ export default function LeaveDays({ days, setDays, formik }) {
 							minDate={new Date()}
 						/>
 					</MuiPickersUtilsProvider>
+					<Box display='flex' justifyContent='flex-end' mt={2}>
+						<Button variant='contained' size='small' color='primary' onClick={() => setOpen(false)}>
+							Add
+						</Button>
+					</Box>
 				</div>
 			</Dialog>
 		</Fragment>

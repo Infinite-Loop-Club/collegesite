@@ -80,6 +80,7 @@ export default function ClForm() {
 							<TextField
 								Icon={<DateRangeIcon />}
 								label='No of CL available'
+								inputProps={{ min: 1, max: 50 }}
 								type='number'
 								helperText={formik.touched['clAvailable'] && formik.errors['clAvailable']}
 								error={formik.errors['clAvailable'] && formik.touched['clAvailable']}
@@ -129,6 +130,7 @@ export default function ClForm() {
 								Icon={<TodayIcon />}
 								type='number'
 								label='No of days CL required'
+								inputProps={{ min: 1, max: 50 }}
 								helperText={formik.touched['clRequired'] && formik.errors['clRequired']}
 								error={formik.errors['clRequired'] && formik.touched['clRequired']}
 								value={formik.values.clRequired}

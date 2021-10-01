@@ -3,8 +3,19 @@ import * as Yup from 'yup';
 export const clFormValidation = Yup.object({
 	name: Yup.string().required('Required'),
 	designation: Yup.string().required('Required'),
-	clAvailable: Yup.number().required('Required'),
-	clRequired: Yup.number().required('Required'),
+	clAvailable: Yup.number()
+		.required('Required')
+		.min(1, 'Invalid CL count !')
+		.max(50, 'Invalid CL count !'),
+	clRequired: Yup.number()
+		.required('Required')
+		.test('test-lessThanOrEqual', 'Must be less than CL available', function checkCL(val) {
+			const { clAvailable } = this.parent;
+			if (val <= clAvailable) {
+				return true;
+			}
+			return false;
+		}),
 	email: Yup.string().email('Invalid Email').required('Required'),
 	mailTo: Yup.string().email('Invalid Email').required('Required'),
 	phoneNumber: Yup.string()
