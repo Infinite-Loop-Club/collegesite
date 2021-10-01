@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-export default Yup.object({
+export const clFormValidation = Yup.object({
 	name: Yup.string().required('Required'),
 	designation: Yup.string().required('Required'),
 	clAvailable: Yup.number().required('Required'),
@@ -12,4 +12,12 @@ export default Yup.object({
 		.min(10, 'Phone Number must have 10 digits')
 		.max(10, 'Phone Number must have 10 digits')
 		.required('Required')
+});
+
+export const scheduleValidation = Yup.object({
+	hour: Yup.number().required('Required'),
+	year: Yup.number().required('Required'),
+	class: Yup.string().required('Required'),
+	subject: Yup.string().required('Required'),
+	faculty: Yup.string().required('Required')
 });

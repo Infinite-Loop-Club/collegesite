@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import 'date-fns';
-import { Button, InputLabel, MenuItem, FormControl, Select } from '@material-ui/core';
+import {
+	Button,
+	InputLabel,
+	MenuItem,
+	FormControl,
+	Select,
+	FormHelperText
+} from '@material-ui/core';
 
 import PersonIcon from '@material-ui/icons/Person';
 import TodayIcon from '@material-ui/icons/Today';
@@ -15,7 +22,7 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import TextField from '../../component/TextField';
 import WithIcon from '../../component/WithIcon';
 import { Main, Container, FormContainer } from './styles';
-import validationSchema from './validationSchema';
+import { clFormValidation } from './validationSchema';
 import AlternateArrangement from './AlternateArrangement';
 import LeaveDays from './LeaveDays';
 
@@ -37,7 +44,7 @@ export default function ClForm() {
 			mailTo: '',
 			phoneNumber: ''
 		},
-		validationSchema: validationSchema,
+		validationSchema: clFormValidation,
 		onSubmit: handleSubmit
 	});
 
@@ -94,11 +101,21 @@ export default function ClForm() {
 							<WithIcon Icon={<AlternateEmailIcon />}>
 								<FormControl fullWidth>
 									<InputLabel>Mail to</InputLabel>
-									<Select value={formik.values.mailTo} {...formik.getFieldProps('mailTo')}>
+									<Select
+										value={formik.values.mailTo}
+										error={formik.errors['mailTo'] && formik.touched['mailTo']}
+										{...formik.getFieldProps('mailTo')}
+									>
+										<MenuItem value={''}>--Select--</MenuItem>
 										<MenuItem value={'mail1@email.com'}>mail1@email.com</MenuItem>
 										<MenuItem value={'mail2@email.com'}>mail2@email.com</MenuItem>
 										<MenuItem value={'mail3@email.com'}>mail3@email.com</MenuItem>
 									</Select>
+									{formik.errors['mailTo'] && formik.touched['mailTo'] && (
+										<FormHelperText style={{ color: 'red' }}>
+											{formik.errors['mailTo']}
+										</FormHelperText>
+									)}
 								</FormControl>
 							</WithIcon>
 							<TextField Icon={<CreateIcon />} label='Reason' multiline rows={4} />
