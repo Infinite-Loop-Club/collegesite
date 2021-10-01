@@ -1,13 +1,12 @@
 import React from 'react';
-import { Grid, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+
+import WithIcon from './WithIcon';
 
 export default function TextFieldMod({ Icon, ...props }) {
 	return (
-		<Grid container spacing={1} alignItems='flex-end' style={{ margin: '5px 0' }}>
-			<Grid item>{Icon}</Grid>
-			<Grid item style={{ width: '85%' }}>
-				<TextField fullWidth {...props} />
-			</Grid>
-		</Grid>
+		<WithIcon Icon={Icon}>
+			<TextField fullWidth {...props} />
+		</WithIcon>
 	);
 }

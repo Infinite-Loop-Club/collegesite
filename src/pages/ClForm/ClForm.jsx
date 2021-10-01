@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
+
 import PersonIcon from '@material-ui/icons/Person';
 import TodayIcon from '@material-ui/icons/Today';
-import {
-	MuiPickersUtilsProvider,
-	KeyboardDatePicker,
-	KeyboardTimePicker
-} from '@material-ui/pickers';
+import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import MailIcon from '@material-ui/icons/Mail';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import CreateIcon from '@material-ui/icons/Create';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+
+import { MuiPickersUtilsProvider, DatePicker, KeyboardTimePicker } from '@material-ui/pickers';
 import {
 	Paper,
 	TableRow,
@@ -25,6 +29,7 @@ import {
 } from '@material-ui/core';
 
 import TextField from '../../component/TextField';
+import WithIcon from '../../component/WithIcon';
 import { Main, Container, FormContainer } from './styles';
 import validationSchema from './validationSchema';
 
@@ -44,7 +49,6 @@ export default function ClForm() {
 		initialValues: {
 			name: '',
 			designation: '',
-			dateOfApplication: '',
 			clAvailable: '',
 			clRequired: '',
 			email: '',
@@ -73,37 +77,50 @@ export default function ClForm() {
 								{...formik.getFieldProps('name')}
 							/>
 							<TextField
-								Icon={<TodayIcon />}
+								Icon={<BusinessCenterIcon />}
 								label='Designation'
 								helperText={formik.touched['designation'] && formik.errors['designation']}
 								error={formik.errors['designation'] && formik.touched['designation']}
 								value={formik.values.designation}
 								{...formik.getFieldProps('designation')}
 							/>
-							<MuiPickersUtilsProvider utils={DateFnsUtils}>
-								<KeyboardDatePicker
-									fullWidth
-									margin='normal'
-									id='dateOfApplication'
-									label='Date of application'
-									format='MM/dd/yyyy'
-									InputAdornmentProps={{ position: 'start' }}
-									KeyboardButtonProps={{
-										'aria-label': 'change date'
-									}}
-									value={selectedDate}
-									onChange={handleDateChange}
-									minDate={new Date()}
-								/>
-							</MuiPickersUtilsProvider>
 							<TextField
-								Icon={<TodayIcon />}
+								Icon={<DateRangeIcon />}
 								label='Number of CL available'
 								helperText={formik.touched['clAvailable'] && formik.errors['clAvailable']}
 								error={formik.errors['clAvailable'] && formik.touched['clAvailable']}
 								value={formik.values.clAvailable}
 								{...formik.getFieldProps('clAvailable')}
 							/>
+							<TextField
+								Icon={<PhoneIphoneIcon />}
+								label='Communication Number'
+								helperText={formik.touched['phoneNumber'] && formik.errors['phoneNumber']}
+								error={formik.errors['phoneNumber'] && formik.touched['phoneNumber']}
+								value={formik.values.phoneNumber}
+								{...formik.getFieldProps('phoneNumber')}
+							/>
+							<TextField
+								Icon={<MailIcon />}
+								label='Your Email'
+								helperText={formik.touched['email'] && formik.errors['email']}
+								error={formik.errors['email'] && formik.touched['email']}
+								value={formik.values.email}
+								{...formik.getFieldProps('email')}
+							/>
+							<WithIcon Icon={<AlternateEmailIcon />}>
+								<FormControl fullWidth>
+									<InputLabel>Mail to</InputLabel>
+									<Select value={formik.values.mailTo} {...formik.getFieldProps('mailTo')}>
+										<MenuItem value={'mail1@email.com'}>mail1@email.com</MenuItem>
+										<MenuItem value={'mail2@email.com'}>mail2@email.com</MenuItem>
+										<MenuItem value={'mail3@email.com'}>mail3@email.com</MenuItem>
+									</Select>
+								</FormControl>
+							</WithIcon>
+							<TextField Icon={<CreateIcon />} label='Reason' multiline rows={4} />
+						</div>
+						<div>
 							<TextField
 								Icon={<TodayIcon />}
 								label='Number of days CL required'
@@ -113,32 +130,18 @@ export default function ClForm() {
 								{...formik.getFieldProps('clRequired')}
 							/>
 							<MuiPickersUtilsProvider utils={DateFnsUtils}>
-								<KeyboardDatePicker
-									margin='normal'
-									fullWidth
-									id='date-picker-dialog'
-									label='Days of CL'
-									format='MM/dd/yyyy'
-									InputAdornmentProps={{ position: 'start' }}
-									KeyboardButtonProps={{
-										'aria-label': 'change date'
-									}}
-									value={selectedDate}
-									onChange={handleDateChange}
-									minDate={new Date()}
-								/>
+								<WithIcon Icon={<TodayIcon />}>
+									<DatePicker
+										margin='normal'
+										fullWidth
+										label='Days of CL'
+										format='MM/dd/yyyy'
+										value={selectedDate}
+										onChange={handleDateChange}
+										minDate={new Date()}
+									/>
+								</WithIcon>
 							</MuiPickersUtilsProvider>
-							<TextField id='outlined-multiline-static' label='Reason' multiline rows={4} />
-						</div>
-						<div>
-							<TextField
-								Icon={<PersonIcon />}
-								label='Communication Number'
-								helperText={formik.touched['phoneNumber'] && formik.errors['phoneNumber']}
-								error={formik.errors['phoneNumber'] && formik.touched['phoneNumber']}
-								value={formik.values.phoneNumber}
-								{...formik.getFieldProps('phoneNumber')}
-							/>
 							<div style={{ margin: '2rem auto' }}>
 								<h3 style={{ textAlign: 'center' }}>Alternate Arrangement</h3>
 								<TableContainer component={Paper}>
@@ -186,27 +189,6 @@ export default function ClForm() {
 									</Table>
 								</TableContainer>
 							</div>
-							<TextField
-								Icon={<TodayIcon />}
-								label='Your Email'
-								helperText={formik.touched['email'] && formik.errors['email']}
-								error={formik.errors['email'] && formik.touched['email']}
-								value={formik.values.email}
-								{...formik.getFieldProps('email')}
-							/>
-							<FormControl fullWidth>
-								<InputLabel id='demo-simple-select-label'>Mail to</InputLabel>
-								<Select
-									labelId='demo-simple-select-label'
-									id='demo-simple-select'
-									value={formik.values.mailTo}
-									{...formik.getFieldProps('mailTo')}
-								>
-									<MenuItem value={'mail1@email.com'}>mail1@email.com</MenuItem>
-									<MenuItem value={'mail2@email.com'}>mail2@email.com</MenuItem>
-									<MenuItem value={'mail3@email.com'}>mail3@email.com</MenuItem>
-								</Select>
-							</FormControl>
 						</div>
 					</FormContainer>
 					<div

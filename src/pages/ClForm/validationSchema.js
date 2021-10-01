@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 export default Yup.object({
 	name: Yup.string().required('Required'),
 	designation: Yup.string().required('Required'),
-	dateOfApplication: Yup.date().required('Required'),
 	clAvailable: Yup.number().required('Required'),
 	clRequired: Yup.number().required('Required'),
 	email: Yup.string().email('Invalid Email').required('Required'),
