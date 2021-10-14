@@ -2,7 +2,7 @@ import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from 'styled-components';
 
-import logo from '../assets/au_logo';
+import logo from 'assets/au_logo';
 
 export default function Loader() {
 	return (

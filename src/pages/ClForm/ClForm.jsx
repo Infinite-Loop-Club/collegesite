@@ -20,14 +20,11 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import CreateIcon from '@material-ui/icons/Create';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 
-import TextField from '../../component/TextField';
-import WithIcon from '../../component/WithIcon';
+import { TextField, WithIcon, Loader, Alert } from 'component';
 import { Main, Container, FormContainer } from './styles';
 import { clFormValidation } from './validationSchema';
 import AlternateArrangement from './AlternateArrangement';
 import LeaveDays from './LeaveDays';
-import Loader from '../../component/Loader';
-import Alert from '../../component/Alert';
 
 export default function ClForm() {
 	const [days, setDays] = useState([]);

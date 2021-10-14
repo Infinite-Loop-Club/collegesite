@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import { useFormik } from 'formik';
 
-import Modal from '../../component/Modal';
+import { Modal } from 'component';
 import { scheduleValidation } from './validationSchema';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -83,7 +83,7 @@ export default function ScheduleModal({
 			handleDateChange(new Date(arrangement[activeInd].timing));
 			setData(arrangement[activeInd]);
 		}
-	}, [activeInd]);
+	}, [activeInd, arrangement]);
 
 	const handleDelete = () => {
 		setArrangement(old => old.filter((val, ind) => ind !== activeInd));
