@@ -2,7 +2,7 @@ import React from 'react';
 import { createGlobalStyle, ThemeProvider as ScThemeProvide } from 'styled-components';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
-import ClForm from './pages/ClForm';
+import { Login } from 'pages';
 import theme from './theme';
 import { colors, styles } from './constants';
 
@@ -11,7 +11,7 @@ export default function App() {
 		<ScThemeProvide theme={{ ...colors, ...styles }}>
 			<GlobalStyles />
 			<MuiThemeProvider theme={theme}>
-				<ClForm />
+				<Login />
 			</MuiThemeProvider>
 		</ScThemeProvide>
 	);

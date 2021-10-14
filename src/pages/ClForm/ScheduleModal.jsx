@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import { useFormik } from 'formik';
 
-import { Modal } from 'component';
+import { Modal } from 'components';
 import { scheduleValidation } from './validationSchema';
 import { makeStyles } from '@material-ui/core/styles';
 

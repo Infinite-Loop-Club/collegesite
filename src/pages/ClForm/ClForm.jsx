@@ -20,7 +20,7 @@ import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import CreateIcon from '@material-ui/icons/Create';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 
-import { TextField, WithIcon, Loader, Alert } from 'component';
+import { TextField, WithIcon, Loader, Alert } from 'components';
 import { Main, Container, FormContainer } from './styles';
 import { clFormValidation } from './validationSchema';
 import AlternateArrangement from './AlternateArrangement';
