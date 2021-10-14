@@ -6,17 +6,24 @@ import { BgContainer, ButtonWithLoader, FlexContainer } from 'components';
 
 import { handleChange } from 'functions';
 
-export default function Login() {
+export default function Login({ setIsLoggedIn }) {
 	const [loading, setLoading] = useState(false);
+	const [step, setStep] = useState(1);
 	const [data, setData] = useState({
 		email: '',
-		password: ''
+		otp: ''
 	});
 
 	const handleSubmit = async e => {
 		e.preventDefault();
 		if (loading) return;
 		setLoading(true);
+		setIsLoggedIn(true);
+	};
+
+	const handleEmailSubmit = async e => {
+		e.preventDefault();
+		setStep(2);
 	};
 
 	return (
@@ -26,25 +33,31 @@ export default function Login() {
 				<Typography variant='h5' color='primary' style={{ fontWeight: '600' }}>
 					LOGIN
 				</Typography>
-				<form onSubmit={handleSubmit}>
-					<TextField
-						label='Email'
-						required
-						name='email'
-						type='email'
-						value={data.email}
-						onChange={handleChange(setData)}
-					/>
-					<TextField
-						label='Password'
-						required
-						type='password'
-						name='password'
-						value={data.password}
-						onChange={handleChange(setData)}
-					/>
-					<ButtonWithLoader loading={loading} text='LOGIN' />
-				</form>
+				{step === 1 ? (
+					<form onSubmit={handleEmailSubmit}>
+						<TextField
+							label='Email'
+							required
+							name='email'
+							type='email'
+							value={data.email}
+							onChange={handleChange(setData)}
+						/>
+						<ButtonWithLoader loading={loading} text='Next' />
+					</form>
+				) : (
+					<form onSubmit={handleSubmit}>
+						<TextField
+							label='OTP'
+							name='otp'
+							type='number'
+							value={data.otp}
+							onChange={handleChange(setData)}
+						/>
+
+						<ButtonWithLoader loading={loading} text='Submit' />
+					</form>
+				)}
 			</Box>
 		</BgContainer>
 	);

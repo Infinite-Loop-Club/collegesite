@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createGlobalStyle, ThemeProvider as ScThemeProvide } from 'styled-components';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
-import { Login } from 'pages';
+import { Login, ClForm } from 'pages';
 import theme from './theme';
 import { colors, styles } from './constants';
 
 export default function App() {
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 	return (
 		<ScThemeProvide theme={{ ...colors, ...styles }}>
 			<GlobalStyles />
 			<MuiThemeProvider theme={theme}>
-				<Login />
+				{isLoggedIn ? <ClForm /> : <Login {...{ setIsLoggedIn }} />}
 			</MuiThemeProvider>
 		</ScThemeProvide>
 	);
