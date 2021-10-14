@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Typography, TextField } from '@material-ui/core';
+import OtpInput from 'react-otp-input-rc-17';
 
 import { BgContainer, ButtonWithLoader, FlexContainer } from 'components';
 
@@ -18,6 +19,7 @@ export default function Login({ setIsLoggedIn }) {
 		e.preventDefault();
 		if (loading) return;
 		setLoading(true);
+		console.log(data);
 		setIsLoggedIn(true);
 	};
 
@@ -31,7 +33,7 @@ export default function Login({ setIsLoggedIn }) {
 			<Box>
 				<img src={'/images/staff.png'} alt='staff'></img>
 				<Typography variant='h5' color='primary' style={{ fontWeight: '600' }}>
-					LOGIN
+					{step === 1 ? 'LOGIN' : 'OTP'}
 				</Typography>
 				{step === 1 ? (
 					<form onSubmit={handleEmailSubmit}>
@@ -46,17 +48,20 @@ export default function Login({ setIsLoggedIn }) {
 						<ButtonWithLoader loading={loading} text='Next' />
 					</form>
 				) : (
-					<form onSubmit={handleSubmit}>
-						<TextField
-							label='OTP'
-							name='otp'
-							type='number'
+					<Form onSubmit={handleSubmit}>
+						<OtpInput
 							value={data.otp}
-							onChange={handleChange(setData)}
+							onChange={otp => setData(old => ({ ...old, otp }))}
+							numInputs={6}
+							separator={<span>-</span>}
+							containerStyle={{
+								justifyContent: 'center',
+								margin: '1em'
+							}}
+							isInputNum
 						/>
-
 						<ButtonWithLoader loading={loading} text='Submit' />
-					</form>
+					</Form>
 				)}
 			</Box>
 		</BgContainer>
@@ -88,5 +93,17 @@ const Box = styled(FlexContainer)`
 	}
 	button {
 		margin: 1rem 0;
+	}
+`;
+
+const Form = styled.form`
+	input {
+		font-size: 1.8em;
+		width: 2em !important;
+
+		@media (max-width: 600px) {
+			font-size: 1.2em;
+			width: 1.5em !important;
+		}
 	}
 `;
