@@ -33,3 +33,14 @@ export const scheduleValidation = Yup.object({
 	subject: Yup.string().required('Required'),
 	faculty: Yup.string().required('Required')
 });
+
+export const addressValidation = Yup.object({
+	line1: Yup.string().required('Required'),
+	line2: Yup.string().required('Required'),
+	city: Yup.string().required('Required'),
+	state: Yup.string().required('Required'),
+	postalCode: Yup.number()
+		.required('Required')
+		.typeError('Postal code can only be a number')
+		.test('len', 'Invalid !', val => val?.toString().length === 6)
+});

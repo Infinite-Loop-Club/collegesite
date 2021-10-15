@@ -21,15 +21,18 @@ import CreateIcon from '@material-ui/icons/Create';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 
 import { TextField, WithIcon, Loader, Alert } from 'components';
-import { Main, Container, FormContainer } from './styles';
+import { Main, Container, FormContainer, FlexDiv } from './styles';
 import { clFormValidation } from './validationSchema';
 import AlternateArrangement from './AlternateArrangement';
 import LeaveDays from './LeaveDays';
+import Address from './Address';
 
 export default function ClForm() {
 	const [days, setDays] = useState([]);
 	const [arrangement, setArrangement] = useState([]);
+	const [address, setAddress] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [openAddress, setOpenAddress] = useState(false);
 	const [alert, setAlert] = useState({
 		open: false,
 		message: ''
@@ -40,6 +43,11 @@ export default function ClForm() {
 			return setAlert({
 				open: true,
 				message: 'please add CL days !'
+			});
+		} else if (!address) {
+			return setAlert({
+				open: true,
+				message: 'please add your address !'
 			});
 		}
 
@@ -160,6 +168,34 @@ export default function ClForm() {
 								/>
 							</div>
 							<div>
+								<div>
+									<FlexDiv style={{ marginBottom: '5px' }}>
+										<h3>Address</h3>
+										<Button
+											size='small'
+											variant='contained'
+											color='secondary'
+											onClick={() => {
+												setOpenAddress(true);
+											}}
+										>
+											{address ? 'Edit' : 'Add'}
+										</Button>
+									</FlexDiv>
+									<div>
+										{!address ? (
+											<p style={{ margin: '10px 0', textAlign: 'center' }}>NOT ADDED</p>
+										) : (
+											<>
+												<p>{address?.line1},</p>
+												<p>{address?.line2},</p>
+												<p>
+													{address?.state},{address?.city} - {address?.postalCode}
+												</p>
+											</>
+										)}
+									</div>
+								</div>
 								<TextField
 									Icon={<TodayIcon />}
 									type='number'
@@ -194,6 +230,7 @@ export default function ClForm() {
 					{alert.message}
 				</Alert>
 			</Snackbar>
+			<Address open={openAddress} setOpen={setOpenAddress} {...{ address, setAddress }} />
 		</Main>
 	);
 }
