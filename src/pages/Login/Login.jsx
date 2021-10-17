@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Typography, TextField } from '@material-ui/core';
+import { Typography, TextField, Snackbar } from '@material-ui/core';
 import OtpInput from 'react-otp-input-rc-17';
+import axios from 'axios';
 
-import { BgContainer, ButtonWithLoader, FlexContainer } from 'components';
+import { BgContainer, ButtonWithLoader, FlexContainer, Alert } from 'components';
 
 import { handleChange } from 'functions';
 
@@ -14,57 +15,123 @@ export default function Login({ setIsLoggedIn }) {
 		email: '',
 		otp: ''
 	});
+	const [alert, setAlert] = useState({
+		open: false,
+		type: 'success',
+		message: ''
+	});
+
+	const handleCloseAlert = (event, reason) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		setAlert({
+			open: false,
+			type: 'success',
+			message: ''
+		});
+	};
 
 	const handleSubmit = async e => {
 		e.preventDefault();
 		if (loading) return;
 		setLoading(true);
+		try {
+			const res = await axios.post('/api/verify', {
+				email: data.email,
+				code: data.otp
+			});
+			localStorage.setItem('aubit_token', res.data?.data?.token);
+			setLoading(false);
+			setAlert({
+				open: true,
+				type: 'success',
+				message: 'Verification success !'
+			});
+			setIsLoggedIn(true);
+		} catch (error) {
+			setAlert({
+				open: true,
+				type: 'error',
+				message:
+					error?.response?.data?.message ?? 'Something went wrong ! Please try again later 😪'
+			});
+			setLoading(false);
+		}
 		console.log(data);
-		setIsLoggedIn(true);
 	};
 
 	const handleEmailSubmit = async e => {
 		e.preventDefault();
-		setStep(2);
+		if (loading) return;
+		setLoading(true);
+		try {
+			await axios.post('/api/login', {
+				email: data.email
+			});
+			setLoading(false);
+			setAlert({
+				open: true,
+				type: 'success',
+				message: 'OTP send successfully !'
+			});
+			setStep(2);
+		} catch (error) {
+			setAlert({
+				open: true,
+				type: 'error',
+				message:
+					error?.response?.data?.message ?? 'Something went wrong ! Please try again later 😪'
+			});
+			setLoading(false);
+		}
 	};
 
 	return (
-		<BgContainer>
-			<Box>
-				<img src={'/images/staff.png'} alt='staff'></img>
-				<Typography variant='h5' color='primary' style={{ fontWeight: '600' }}>
-					{step === 1 ? 'LOGIN' : 'OTP'}
-				</Typography>
-				{step === 1 ? (
-					<form onSubmit={handleEmailSubmit}>
-						<TextField
-							label='Email'
-							required
-							name='email'
-							type='email'
-							value={data.email}
-							onChange={handleChange(setData)}
-						/>
-						<ButtonWithLoader loading={loading} text='Next' />
-					</form>
-				) : (
-					<Form onSubmit={handleSubmit}>
-						<OtpInput
-							value={data.otp}
-							onChange={otp => setData(old => ({ ...old, otp }))}
-							numInputs={6}
-							separator={<span>-</span>}
-							containerStyle={{
-								justifyContent: 'center',
-								margin: '1em'
-							}}
-							isInputNum
-						/>
-						<ButtonWithLoader loading={loading} text='Submit' />
-					</Form>
-				)}
-			</Box>
-		</BgContainer>
+		<>
+			<BgContainer>
+				<Box>
+					<img src={'/images/staff.png'} alt='staff'></img>
+					<Typography variant='h5' color='primary' style={{ fontWeight: '600' }}>
+						{step === 1 ? 'LOGIN' : 'OTP'}
+					</Typography>
+					{step === 1 ? (
+						<form onSubmit={handleEmailSubmit}>
+							<TextField
+								label='Email'
+								required
+								name='email'
+								type='email'
+								value={data.email}
+								onChange={handleChange(setData)}
+							/>
+							<ButtonWithLoader loading={loading} text='Next' />
+						</form>
+					) : (
+						<Form onSubmit={handleSubmit}>
+							<OtpInput
+								value={data.otp}
+								onChange={otp => setData(old => ({ ...old, otp }))}
+								numInputs={6}
+								separator={<span>-</span>}
+								containerStyle={{
+									justifyContent: 'center',
+									margin: '1em'
+								}}
+								isInputNum
+							/>
+							<ButtonWithLoader loading={loading} text='Submit' />
+						</Form>
+					)}
+				</Box>
+			</BgContainer>
+			<Snackbar open={alert.open} autoHideDuration={6000} onClose={handleCloseAlert}>
+				<Alert onClose={handleCloseAlert} severity={alert.type}>
+					{alert.message}
+				</Alert>
+			</Snackbar>
+		</>
 	);
 }
 
