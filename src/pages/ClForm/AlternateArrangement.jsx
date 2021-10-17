@@ -39,12 +39,11 @@ export default function AlternateArrangement({ arrangement, setArrangement }) {
 					<Table>
 						<TableHead>
 							<TableRow>
-								<TableCell>Hour</TableCell>
+								<TableCell>Date</TableCell>
 								<TableCell>Time</TableCell>
 								<TableCell>Year</TableCell>
 								<TableCell>Class</TableCell>
 								<TableCell>Subject</TableCell>
-								<TableCell>Faculty</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -58,14 +57,15 @@ export default function AlternateArrangement({ arrangement, setArrangement }) {
 											setOpen(true);
 										}}
 									>
-										<TableCell style={{ whiteSpace: 'nowrap' }}>{arr.hour}</TableCell>
 										<TableCell style={{ whiteSpace: 'nowrap' }}>
-											{format(new Date(arr.timing), 'hh:mm bbb')}
+											{format(new Date(arr.date_hour), 'dd - MM -yyyy')}
+										</TableCell>
+										<TableCell style={{ whiteSpace: 'nowrap' }}>
+											{format(new Date(arr.date_hour), 'hh:mm bbb')}
 										</TableCell>
 										<TableCell style={{ whiteSpace: 'nowrap' }}>{arr.year}</TableCell>
 										<TableCell style={{ whiteSpace: 'nowrap' }}>{arr.class}</TableCell>
 										<TableCell style={{ whiteSpace: 'nowrap' }}>{arr.subject}</TableCell>
-										<TableCell style={{ whiteSpace: 'nowrap' }}>{arr.faculty}</TableCell>
 									</TableRow>
 								);
 							})}

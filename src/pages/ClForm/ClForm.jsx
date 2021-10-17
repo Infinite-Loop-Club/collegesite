@@ -8,7 +8,8 @@ import {
 	FormControl,
 	Select,
 	FormHelperText,
-	Snackbar
+	Snackbar,
+	Paper
 } from '@material-ui/core';
 
 import PersonIcon from '@material-ui/icons/Person';
@@ -54,7 +55,8 @@ export default function ClForm() {
 		console.log({
 			...value,
 			days,
-			arrangement
+			arrangement,
+			address
 		});
 		setLoading(true);
 	};
@@ -165,9 +167,7 @@ export default function ClForm() {
 									multiline
 									rows={4}
 								/>
-							</div>
-							<div>
-								<div>
+								<Paper style={{ padding: '1em' }}>
 									<FlexDiv style={{ marginBottom: '5px' }}>
 										<h3>Address</h3>
 										<Button
@@ -189,12 +189,14 @@ export default function ClForm() {
 												<p>{address?.line1},</p>
 												<p>{address?.line2},</p>
 												<p>
-													{address?.state},{address?.city} - {address?.postalCode}
+													{address?.state},{address?.city} - {address?.postal_code}
 												</p>
 											</>
 										)}
 									</div>
-								</div>
+								</Paper>
+							</div>
+							<div>
 								<TextField
 									Icon={<TodayIcon />}
 									type='number'

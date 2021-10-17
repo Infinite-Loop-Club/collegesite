@@ -26,11 +26,9 @@ export const clFormValidation = Yup.object({
 });
 
 export const scheduleValidation = Yup.object({
-	hour: Yup.number().required('Required'),
 	year: Yup.number().required('Required'),
 	class: Yup.string().required('Required'),
-	subject: Yup.string().required('Required'),
-	faculty: Yup.string().required('Required')
+	subject: Yup.string().required('Required')
 });
 
 export const addressValidation = Yup.object({
@@ -38,7 +36,7 @@ export const addressValidation = Yup.object({
 	line2: Yup.string().required('Required'),
 	city: Yup.string().required('Required'),
 	state: Yup.string().required('Required'),
-	postalCode: Yup.number()
+	postal_code: Yup.number()
 		.required('Required')
 		.typeError('Postal code can only be a number')
 		.test('len', 'Invalid !', val => val?.toString().length === 6)

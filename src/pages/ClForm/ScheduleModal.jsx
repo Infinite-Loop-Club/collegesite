@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MuiPickersUtilsProvider, KeyboardTimePicker } from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, KeyboardDateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import {
 	TextField,
@@ -27,11 +27,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const INIT_DATA = {
-	hour: '',
 	class: '',
 	year: '',
-	subject: '',
-	faculty: ''
+	subject: ''
 };
 
 export default function ScheduleModal({
@@ -52,14 +50,14 @@ export default function ScheduleModal({
 				...old,
 				{
 					...value,
-					timing: selectedDate.toISOString()
+					date_hour: selectedDate.toISOString()
 				}
 			]);
 		} else {
 			setArrangement(old => {
 				old[activeInd] = {
 					...value,
-					timing: selectedDate.toISOString()
+					date_hour: selectedDate.toISOString()
 				};
 				return [...old];
 			});
@@ -80,7 +78,7 @@ export default function ScheduleModal({
 		if (activeInd === -1) {
 			setData(INIT_DATA);
 		} else {
-			handleDateChange(new Date(arrangement[activeInd].timing));
+			handleDateChange(new Date(arrangement[activeInd].date_hour));
 			setData(arrangement[activeInd]);
 		}
 	}, [activeInd, arrangement]);
@@ -93,31 +91,16 @@ export default function ScheduleModal({
 	return (
 		<Modal {...{ open, setOpen }} title='Add Arrangement'>
 			<form className={classes.root} onSubmit={formik.handleSubmit} style={{ width: '100%' }}>
-				<TextField
-					label='Hour'
-					fullWidth
-					helperText={formik.touched['hour'] && formik.errors['hour']}
-					error={formik.errors['hour'] && formik.touched['hour']}
-					value={formik.values.hour}
-					{...formik.getFieldProps('hour')}
-				/>
 				<MuiPickersUtilsProvider utils={DateFnsUtils}>
-					<KeyboardTimePicker
-						label='Timing'
+					<KeyboardDateTimePicker
+						label='Date and Time'
 						margin='normal'
 						value={selectedDate}
 						onChange={date => handleDateChange(date)}
 						fullWidth
+						minDate={new Date()}
 					/>
 				</MuiPickersUtilsProvider>
-				<TextField
-					label='Class'
-					fullWidth
-					helperText={formik.touched['class'] && formik.errors['class']}
-					error={formik.errors['class'] && formik.touched['class']}
-					value={formik.values.class}
-					{...formik.getFieldProps('class')}
-				/>
 				<FormControl fullWidth>
 					<InputLabel>Year</InputLabel>
 					<Select
@@ -136,20 +119,21 @@ export default function ScheduleModal({
 					)}
 				</FormControl>
 				<TextField
+					label='Class'
+					fullWidth
+					placeholder='CSE B'
+					helperText={formik.touched['class'] && formik.errors['class']}
+					error={formik.errors['class'] && formik.touched['class']}
+					value={formik.values.class}
+					{...formik.getFieldProps('class')}
+				/>
+				<TextField
 					label='Subject'
 					fullWidth
 					helperText={formik.touched['subject'] && formik.errors['subject']}
 					error={formik.errors['subject'] && formik.touched['subject']}
 					value={formik.values.subject}
 					{...formik.getFieldProps('subject')}
-				/>
-				<TextField
-					label='Faculty'
-					fullWidth
-					helperText={formik.touched['faculty'] && formik.errors['faculty']}
-					error={formik.errors['faculty'] && formik.touched['faculty']}
-					value={formik.values.faculty}
-					{...formik.getFieldProps('faculty')}
 				/>
 				<Box display='flex' justifyContent='flex-end' mt={2}>
 					{activeInd !== -1 && (

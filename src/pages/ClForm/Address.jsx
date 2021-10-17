@@ -29,7 +29,7 @@ export default function Address({ open, setOpen, address, setAddress }) {
 			line2: '',
 			city: '',
 			state: '',
-			postalCode: ''
+			postal_code: ''
 		},
 		validationSchema: addressValidation,
 		onSubmit: handleSubmit
@@ -74,10 +74,10 @@ export default function Address({ open, setOpen, address, setAddress }) {
 					label='Postal Code'
 					fullWidth
 					type='number'
-					helperText={formik.touched['postalCode'] && formik.errors['postalCode']}
-					error={formik.errors['postalCode'] && formik.touched['postalCode']}
-					value={formik.values.postalCode}
-					{...formik.getFieldProps('postalCode')}
+					helperText={formik.touched['postal_code'] && formik.errors['postal_code']}
+					error={formik.errors['postal_code'] && formik.touched['postal_code']}
+					value={formik.values.postal_code}
+					{...formik.getFieldProps('postal_code')}
 				/>
 
 				<Box display='flex' justifyContent='flex-end' mt={2}>
