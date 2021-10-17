@@ -27,7 +27,7 @@ export const clFormValidation = Yup.object({
 });
 
 export const scheduleValidation = Yup.object({
-	year: Yup.number().required('Required'),
+	year: Yup.string().required('Required'),
 	class: Yup.string().required('Required'),
 	subject: Yup.string().required('Required')
 });

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import axios from 'axios';
 import 'date-fns';
 import {
 	Button,
@@ -38,12 +39,13 @@ export default function ClForm() {
 	const [address, setAddress] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [openAddress, setOpenAddress] = useState(false);
+	const [success, setSuccess] = useState(false);
 	const [alert, setAlert] = useState({
 		open: false,
 		message: ''
 	});
 
-	const handleSubmit = value => {
+	const handleSubmit = async value => {
 		if (value.no_of_days !== days.length) {
 			return setAlert({
 				open: true,
@@ -54,16 +56,43 @@ export default function ClForm() {
 				open: true,
 				message: 'please add your address !'
 			});
+		} else if (arrangement.length === 0) {
+			return setAlert({
+				open: true,
+				message: 'please add arrangement !'
+			});
 		}
-
-		console.log({
-			...value,
-			days,
-			arrangement,
-			address,
-			nature_of_leave: value.nature_of_leave === 'true'
-		});
 		setLoading(true);
+
+		try {
+			const config = {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('aubit_token')}`
+				}
+			};
+			await axios.post(
+				'/api/apply-cl',
+				{
+					basic: {
+						...value,
+						days,
+						nature_of_leave: value.nature_of_leave === 'true' ? 1 : 0
+					},
+					arrangements: arrangement,
+					address
+				},
+				config
+			);
+			setSuccess(true);
+			setLoading(false);
+		} catch (error) {
+			setAlert({
+				open: true,
+				message:
+					error?.response?.data?.message ?? 'Something went wrong ! Please try again later 😪'
+			});
+			setLoading(false);
+		}
 	};
 
 	const formik = useFormik({
@@ -101,6 +130,10 @@ export default function ClForm() {
 				</div>
 				{loading ? (
 					<Loader />
+				) : success ? (
+					<h4 style={{ textAlign: 'center', margin: '30px 0' }}>
+						Your response has been submitted successfully ✔
+					</h4>
 				) : (
 					<form onSubmit={formik.handleSubmit}>
 						<FormContainer>

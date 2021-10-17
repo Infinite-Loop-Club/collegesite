@@ -109,10 +109,10 @@ export default function ScheduleModal({
 						{...formik.getFieldProps('year')}
 					>
 						<MenuItem value={''}>--Select--</MenuItem>
-						<MenuItem value={1}>1</MenuItem>
-						<MenuItem value={2}>2</MenuItem>
-						<MenuItem value={3}>3</MenuItem>
-						<MenuItem value={4}>4</MenuItem>
+						<MenuItem value={'1 st'}>1 st</MenuItem>
+						<MenuItem value={'2 nd'}>2 nd</MenuItem>
+						<MenuItem value={'3 rd'}>3 rd</MenuItem>
+						<MenuItem value={'4 th'}>4 th</MenuItem>
 					</Select>
 					{formik.errors['year'] && formik.touched['year'] && (
 						<FormHelperText style={{ color: 'red' }}>{formik.errors['year']}</FormHelperText>
