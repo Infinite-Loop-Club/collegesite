@@ -14,8 +14,8 @@ import {
 import PersonIcon from '@material-ui/icons/Person';
 import TodayIcon from '@material-ui/icons/Today';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
-import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
-import MailIcon from '@material-ui/icons/Mail';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import CreateIcon from '@material-ui/icons/Create';
 import DateRangeIcon from '@material-ui/icons/DateRange';
@@ -39,7 +39,7 @@ export default function ClForm() {
 	});
 
 	const handleSubmit = value => {
-		if (value.clRequired !== days.length) {
+		if (value.no_of_days !== days.length) {
 			return setAlert({
 				open: true,
 				message: 'please add CL days !'
@@ -63,12 +63,12 @@ export default function ClForm() {
 		initialValues: {
 			name: '',
 			designation: '',
-			clAvailable: '',
-			clRequired: '',
-			email: '',
-			mailTo: '',
-			phoneNumber: '',
-			reason: ''
+			availed_days: '',
+			no_of_days: '',
+			department_name: '',
+			semester_type: '',
+			phone_number: '',
+			purpose_description: ''
 		},
 		validationSchema: clFormValidation,
 		onSubmit: handleSubmit
@@ -118,51 +118,50 @@ export default function ClForm() {
 									label='No of CL available'
 									inputProps={{ min: 1, max: 50 }}
 									type='number'
-									helperText={formik.touched['clAvailable'] && formik.errors['clAvailable']}
-									error={formik.errors['clAvailable'] && formik.touched['clAvailable']}
-									value={formik.values.clAvailable}
-									{...formik.getFieldProps('clAvailable')}
+									helperText={formik.touched['availed_days'] && formik.errors['availed_days']}
+									error={formik.errors['availed_days'] && formik.touched['availed_days']}
+									value={formik.values.availed_days}
+									{...formik.getFieldProps('availed_days')}
 								/>
 								<TextField
 									Icon={<PhoneIphoneIcon />}
 									label='Communication Number'
-									helperText={formik.touched['phoneNumber'] && formik.errors['phoneNumber']}
-									error={formik.errors['phoneNumber'] && formik.touched['phoneNumber']}
-									value={formik.values.phoneNumber}
-									{...formik.getFieldProps('phoneNumber')}
+									helperText={formik.touched['phone_number'] && formik.errors['phone_number']}
+									error={formik.errors['phone_number'] && formik.touched['phone_number']}
+									value={formik.values.phone_number}
+									{...formik.getFieldProps('phone_number')}
 								/>
 								<TextField
-									Icon={<MailIcon />}
-									label='Your Email'
-									helperText={formik.touched['email'] && formik.errors['email']}
-									error={formik.errors['email'] && formik.touched['email']}
-									value={formik.values.email}
-									{...formik.getFieldProps('email')}
+									Icon={<AccountBalanceIcon />}
+									label='Department Name'
+									helperText={formik.touched['department_name'] && formik.errors['department_name']}
+									error={formik.errors['department_name'] && formik.touched['department_name']}
+									value={formik.values.department_name}
+									{...formik.getFieldProps('department_name')}
 								/>
-								<WithIcon Icon={<AlternateEmailIcon />}>
+								<WithIcon Icon={<MenuBookIcon />}>
 									<FormControl fullWidth>
-										<InputLabel>Mail to</InputLabel>
+										<InputLabel>Semester Type</InputLabel>
 										<Select
-											value={formik.values.mailTo}
-											error={formik.errors['mailTo'] && formik.touched['mailTo']}
-											{...formik.getFieldProps('mailTo')}
+											value={formik.values.semester_type}
+											error={formik.errors['semester_type'] && formik.touched['semester_type']}
+											{...formik.getFieldProps('semester_type')}
 										>
 											<MenuItem value={''}>--Select--</MenuItem>
-											<MenuItem value={'mail1@email.com'}>mail1@email.com</MenuItem>
-											<MenuItem value={'mail2@email.com'}>mail2@email.com</MenuItem>
-											<MenuItem value={'mail3@email.com'}>mail3@email.com</MenuItem>
+											<MenuItem value={'odd'}>ODD</MenuItem>
+											<MenuItem value={'even'}>EVEN</MenuItem>
 										</Select>
-										{formik.errors['mailTo'] && formik.touched['mailTo'] && (
+										{formik.errors['semester_type'] && formik.touched['semester_type'] && (
 											<FormHelperText style={{ color: 'red' }}>
-												{formik.errors['mailTo']}
+												{formik.errors['semester_type']}
 											</FormHelperText>
 										)}
 									</FormControl>
 								</WithIcon>
 								<TextField
 									Icon={<CreateIcon />}
-									{...formik.getFieldProps('reason')}
-									label='Reason'
+									{...formik.getFieldProps('purpose_description')}
+									label='Purpose'
 									multiline
 									rows={4}
 								/>
@@ -201,10 +200,10 @@ export default function ClForm() {
 									type='number'
 									label='No of days CL required'
 									inputProps={{ min: 1, max: 50 }}
-									helperText={formik.touched['clRequired'] && formik.errors['clRequired']}
-									error={formik.errors['clRequired'] && formik.touched['clRequired']}
-									value={formik.values.clRequired}
-									{...formik.getFieldProps('clRequired')}
+									helperText={formik.touched['no_of_days'] && formik.errors['no_of_days']}
+									error={formik.errors['no_of_days'] && formik.touched['no_of_days']}
+									value={formik.values.no_of_days}
+									{...formik.getFieldProps('no_of_days')}
 								/>
 								<LeaveDays {...{ days, setDays, formik }} />
 								<AlternateArrangement {...{ arrangement, setArrangement }} />

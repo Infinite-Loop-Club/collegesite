@@ -38,11 +38,11 @@ export default function LeaveDays({ days, setDays, formik }) {
 
 	return (
 		<Fragment>
-			{formik.values.clRequired && !formik.errors.clRequired && (
+			{formik.values.no_of_days && !formik.errors.no_of_days && (
 				<div style={{ margin: '2rem auto' }}>
 					<FlexDiv style={{ marginBottom: '5px' }}>
 						<h3>CL Days</h3>
-						{days.length < formik.values.clRequired && (
+						{days.length < formik.values.no_of_days && (
 							<Button
 								size='small'
 								variant='contained'

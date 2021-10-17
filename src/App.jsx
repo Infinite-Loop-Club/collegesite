@@ -7,7 +7,9 @@ import theme from './theme';
 import { colors, styles } from './constants';
 
 export default function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(() => {
+		return localStorage.getItem('aubit_token') ? true : false;
+	});
 
 	return (
 		<ScThemeProvide theme={{ ...colors, ...styles }}>
