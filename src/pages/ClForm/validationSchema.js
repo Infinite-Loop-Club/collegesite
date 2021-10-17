@@ -15,6 +15,7 @@ export const clFormValidation = Yup.object({
 	// 	}
 	// 	return false;
 	// })
+	nature_of_leave: Yup.string().required('Required'),
 	department_name: Yup.string().required('Required'),
 	semester_type: Yup.string().required('Required'),
 	phone_number: Yup.string()

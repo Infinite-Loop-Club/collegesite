@@ -9,7 +9,11 @@ import {
 	Select,
 	FormHelperText,
 	Snackbar,
-	Paper
+	Paper,
+	FormLabel,
+	Radio,
+	RadioGroup,
+	FormControlLabel
 } from '@material-ui/core';
 
 import PersonIcon from '@material-ui/icons/Person';
@@ -56,7 +60,8 @@ export default function ClForm() {
 			...value,
 			days,
 			arrangement,
-			address
+			address,
+			nature_of_leave: value.nature_of_leave === 'true'
 		});
 		setLoading(true);
 	};
@@ -70,7 +75,8 @@ export default function ClForm() {
 			department_name: '',
 			semester_type: '',
 			phone_number: '',
-			purpose_description: ''
+			purpose_description: '',
+			nature_of_leave: 'false'
 		},
 		validationSchema: clFormValidation,
 		onSubmit: handleSubmit
@@ -197,6 +203,16 @@ export default function ClForm() {
 								</Paper>
 							</div>
 							<div>
+								<FormControl component='fieldset' style={{ width: '100%', marginTop: '20px' }}>
+									<FormLabel component='legend'>Nature of Leave</FormLabel>
+									<RadioGroup
+										{...formik.getFieldProps('nature_of_leave')}
+										style={{ display: 'flex', flexDirection: 'row' }}
+									>
+										<FormControlLabel value={'true'} control={<Radio />} label='Yes' />
+										<FormControlLabel value={'false'} control={<Radio />} label='No' />
+									</RadioGroup>
+								</FormControl>
 								<TextField
 									Icon={<TodayIcon />}
 									type='number'
