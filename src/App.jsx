@@ -1,21 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createGlobalStyle, ThemeProvider as ScThemeProvide } from 'styled-components';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import axios from 'axios';
 
 import { Login, ClForm } from 'pages';
+import { Loader, BgContainer } from 'components';
 import theme from './theme';
 import { colors, styles } from './constants';
 
 export default function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(() => {
-		return localStorage.getItem('aubit_token') ? true : false;
-	});
+	const [loading, setLoading] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	const checkAuth = async () => {
+		try {
+			await axios.get('/api/auth', {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('aubit_token')}`
+				}
+			});
+			setIsLoggedIn(true);
+			setLoading(false);
+		} catch (error) {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		checkAuth();
+	}, []);
 
 	return (
 		<ScThemeProvide theme={{ ...colors, ...styles }}>
 			<GlobalStyles />
+
 			<MuiThemeProvider theme={theme}>
-				{isLoggedIn ? <ClForm /> : <Login {...{ setIsLoggedIn }} />}
+				{loading ? (
+					<BgContainer>
+						<Loader />
+					</BgContainer>
+				) : isLoggedIn ? (
+					<ClForm />
+				) : (
+					<Login {...{ setIsLoggedIn }} />
+				)}
 			</MuiThemeProvider>
 		</ScThemeProvide>
 	);
