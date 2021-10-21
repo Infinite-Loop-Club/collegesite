@@ -18,7 +18,7 @@ import { format, addDays } from 'date-fns';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { FlexDiv } from './styles';
 
-export default function LeaveDays({ days, setDays, formik }) {
+export default function LeaveDays({ dates, setDates, formik }) {
 	const [open, setOpen] = useState(false);
 	const [activeInd, setActiveInd] = useState(-1);
 	const [selectedDate, setSelectedDate] = useState(new Date());
@@ -28,7 +28,7 @@ export default function LeaveDays({ days, setDays, formik }) {
 	};
 
 	const handleClose = () => {
-		setDays(old => {
+		setDates(old => {
 			if (activeInd === -1) return [...new Set([...old, selectedDate.toDateString()])];
 			old[activeInd] = selectedDate.toDateString();
 			return [...new Set(old)];
@@ -41,7 +41,7 @@ export default function LeaveDays({ days, setDays, formik }) {
 			<div style={{ margin: '2rem auto' }}>
 				<FlexDiv style={{ marginBottom: '5px' }}>
 					<h3>CL Days</h3>
-					{days.length < formik.values.no_of_days && (
+					{dates.length < formik.values.no_of_days && (
 						<Button
 							size='small'
 							variant='contained'
@@ -49,7 +49,7 @@ export default function LeaveDays({ days, setDays, formik }) {
 							onClick={() => {
 								setActiveInd(-1);
 								setSelectedDate(
-									days.length === 0 ? new Date() : addDays(new Date(days[days.length - 1]), 1)
+									dates.length === 0 ? new Date() : addDays(new Date(dates[dates.length - 1]), 1)
 								);
 								setOpen(true);
 							}}
@@ -61,7 +61,7 @@ export default function LeaveDays({ days, setDays, formik }) {
 				<TableContainer component={Paper}>
 					<Table>
 						<TableBody>
-							{days.map((val, ind) => {
+							{dates.map((val, ind) => {
 								return (
 									<TableRow key={ind}>
 										<TableCell component='th' scope='row'>
@@ -71,14 +71,14 @@ export default function LeaveDays({ days, setDays, formik }) {
 											style={{ cursor: 'pointer' }}
 											onClick={() => {
 												setActiveInd(ind);
-												setSelectedDate(new Date(days[ind]));
+												setSelectedDate(new Date(dates[ind]));
 												setOpen(true);
 											}}
 										>
 											{format(new Date(val), 'dd - MM -yyyy')}
 										</TableCell>
 										<TableCell>
-											<IconButton onClick={() => setDays(old => old.filter((v, i) => i !== ind))}>
+											<IconButton onClick={() => setDates(old => old.filter((v, i) => i !== ind))}>
 												<DeleteIcon />
 											</IconButton>
 										</TableCell>
@@ -87,7 +87,7 @@ export default function LeaveDays({ days, setDays, formik }) {
 							})}
 						</TableBody>
 					</Table>
-					{days.length === 0 && <h5 style={{ margin: '10px', textAlign: 'center' }}>NOT ADDED</h5>}
+					{dates.length === 0 && <h5 style={{ margin: '10px', textAlign: 'center' }}>NOT ADDED</h5>}
 				</TableContainer>
 			</div>
 			<Dialog onClose={handleClose} aria-labelledby='simple-dialog-title' open={open}>

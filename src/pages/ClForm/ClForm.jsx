@@ -34,7 +34,7 @@ import LeaveDays from './LeaveDays';
 import Address from './Address';
 
 export default function ClForm() {
-	const [days, setDays] = useState([]);
+	const [dates, setDates] = useState([]);
 	const [arrangement, setArrangement] = useState([]);
 	const [address, setAddress] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -46,7 +46,7 @@ export default function ClForm() {
 	});
 
 	const handleSubmit = async value => {
-		if (value.no_of_days !== days.length) {
+		if (value.no_of_days !== dates.length) {
 			return setAlert({
 				open: true,
 				message: 'please add CL days !'
@@ -75,11 +75,15 @@ export default function ClForm() {
 				{
 					basic: {
 						...value,
-						days,
+						country_code: '91',
 						nature_of_leave: value.nature_of_leave === 'true' ? 1 : 0
 					},
 					arrangements: arrangement,
-					address
+					dates,
+					address: {
+						...address,
+						country: 'India'
+					}
 				},
 				config
 			);
@@ -256,7 +260,7 @@ export default function ClForm() {
 									value={formik.values.no_of_days}
 									{...formik.getFieldProps('no_of_days')}
 								/>
-								<LeaveDays {...{ days, setDays, formik }} />
+								<LeaveDays {...{ dates, setDates, formik }} />
 								<AlternateArrangement {...{ arrangement, setArrangement }} />
 							</div>
 						</FormContainer>
